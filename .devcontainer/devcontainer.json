@@ -1,0 +1,87 @@
+{
+  "name": "Backstage Workshop",
+  "dockerComposeFile": "docker-compose.yml",
+  "service": "app",
+  "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
+  "shutdownAction": "stopCompose",
+  "forwardPorts": [3000, 7007, 8080, "db:5432"],
+  "features": {
+    "ghcr.io/devcontainers/features/kubectl-helm-minikube:1": {
+      "version": "latest",
+      "helm": "latest",
+      "minikube": "none"
+    },
+    "ghcr.io/devcontainers-extra/features/kind:1": {
+      "version": "latest"
+    },
+    "ghcr.io/devcontainers-extra/features/argo-cd:1": {},
+    "ghcr.io/devcontainers-extra/features/kyverno-cli:1": {},
+    "ghcr.io/joebowbeer/devcontainers-features/crossplane:1": {
+      "channel": "stable",
+      "version": "current"
+    },
+    "ghcr.io/devcontainers/features/common-utils:2.5.6": {},
+    "ghcr.io/devcontainers-extra/features/mkdocs:2": {},
+    "ghcr.io/devcontainers/features/docker-in-docker:2": {
+      "dockerDashComposeVersion": "v2"
+    },
+    "ghcr.io/devcontainers/features/java:1": {
+      "version": "21"
+    }
+  },
+  "postCreateCommand": "bash .devcontainer/setup.sh",
+  "hostRequirements": {
+    "cpus": 2,
+    "memory": "4gb",
+    "storage": "32gb"
+  },
+  "portsAttributes": {
+    "3000": {
+      "label": "Backstage Frontend",
+      "onAutoForward": "silent",
+      "requireLocalPort": true
+    },
+    "7007": {
+      "label": "Backstage Backend",
+      "onAutoForward": "silent",
+      "requireLocalPort": true
+    },
+    "8080": {
+      "label": "Spring Boot",
+      "onAutoForward": "silent",
+      "requireLocalPort": true
+    },
+    "db:5432": {
+      "label": "PostgreSQL",
+      "onAutoForward": "silent"
+    },
+    "9464": {
+      "onAutoForward": "silent"
+    }
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "esbenp.prettier-vscode",
+        "dbaeumer.vscode-eslint",
+        "Intility.vscode-backstage"
+      ],
+      "settings": {
+        "editor.formatOnSave": true,
+        "editor.defaultFormatter": "esbenp.prettier-vscode",
+        "eslint.validate": [
+          "javascript",
+          "javascriptreact",
+          "typescript",
+          "typescriptreact"
+        ],
+        "files.eol": "\n",
+        "prettier.endOfLine": "lf",
+        "editor.codeActionsOnSave": {
+          "source.fixAll": "explicit",
+          "source.sortMembers": "explicit"
+        }
+      }
+    }
+  }
+}
