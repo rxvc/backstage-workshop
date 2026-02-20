@@ -29,30 +29,34 @@
       "version": "21"
     }
   },
-  "postCreateCommand": "bash .devcontainer/setup.sh",
+  "postCreateCommand": "bash .devcontainer/postCreate.sh",
   "hostRequirements": {
     "cpus": 2,
     "memory": "4gb",
     "storage": "32gb"
   },
   "portsAttributes": {
+    "443": {
+      "label": "k8s-ingress",
+      "onAutoForward": "silent"
+    },
     "3000": {
-      "label": "Backstage Frontend",
+      "label": "backstage-frontend",
       "onAutoForward": "silent",
       "requireLocalPort": true
     },
     "7007": {
-      "label": "Backstage Backend",
+      "label": "backstage-backend",
       "onAutoForward": "silent",
       "requireLocalPort": true
     },
     "8080": {
-      "label": "Spring Boot",
+      "label": "spring-boot",
       "onAutoForward": "silent",
       "requireLocalPort": true
     },
     "db:5432": {
-      "label": "PostgreSQL",
+      "label": "postgresql",
       "onAutoForward": "silent"
     },
     "9464": {

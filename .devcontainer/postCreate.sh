@@ -1,5 +1,6 @@
 #!/bin/bash
-echo "Installing Backstage dependencies..."
+set -e
+echo "Setting up Backstage environment..."
 
 
 export VIRTUAL_ENV=$HOME/venv
@@ -7,7 +8,13 @@ python3 -m venv $VIRTUAL_ENV
 export PATH="$VIRTUAL_ENV/bin:$PATH"
 python3 -m pip install mkdocs-techdocs-core
 
-yes "" | npx -y @backstage/create-app@latest
+
+echo "Setting up Backstage Demo environment..."
+if kind get clusters | grep -qx backstage-demo; then
+  echo "Kind cluster backstage-demo already exists. Skipping create."
+else
+  kind create cluster --name backstage-demo --config kind/config.yaml
+fi
 
 echo ""
 echo "╔════════════════════════════════════════════════════════╗ "
@@ -16,7 +23,7 @@ echo "╠═══════════════════════�
 echo "║                                                        ║ "
 echo "║  Open a new terminal and run:                          ║ "
 echo "║                                                        ║ "
-echo "║       yarn start                                         ║ "
+echo "║       yarn start                                       ║ "
 echo "║                                                        ║ "
 echo "║  Then access Backstage at:                             ║ "
 echo "║                                                        ║ "
