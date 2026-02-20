@@ -4,7 +4,7 @@
   "service": "app",
   "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
   "shutdownAction": "stopCompose",
-  "forwardPorts": [3000, 7007, 8080, "db:5432"],
+  "forwardPorts": [443,3000, 7007, 8080, "db:5432"],
   "features": {
     "ghcr.io/devcontainers/features/kubectl-helm-minikube:1": {
       "version": "latest",
