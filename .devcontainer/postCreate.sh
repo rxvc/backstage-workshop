@@ -40,6 +40,16 @@ helm repo add argo https://argoproj.github.io/argo-helm
 helm repo update
 helm install argocd argo/argo-cd --version 9.4.0 --namespace argocd --create-namespace --wait
 
+echo "Create Backstage RBAC..."
+kubectl apply -f backstage-rbac/namespace.yaml
+kubectl apply -f backstage-rbac/serviceAccount.yaml
+kubectl apply -f backstage-rbac/secret.yaml
+kubectl apply -f backstage-rbac/clusterRoleBinding.yaml
+
+echo "Install Metrics Server..."
+kubectl apply -k metrics-server/
+
+
 echo ""
 echo "╔════════════════════════════════════════════════════════╗ "
 echo "║  Setup Complete! Ready to launch Backstage!            ║ "
