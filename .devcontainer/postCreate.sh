@@ -16,6 +16,15 @@ else
   kind create cluster --name backstage-demo --config kind/config.yaml
 fi
 
+echo "Install Cert Manager..."
+kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.19.2/cert-manager.yaml
+kubectl -n cert-manager rollout status deploy/cert-manager --timeout=10m
+kubectl -n cert-manager rollout status deploy/cert-manager-webhook --timeout=10m
+kubectl -n cert-manager rollout status deploy/cert-manager-cainjector --timeout=10m
+
+echo "Create Cluster Issuer..."
+kubectl apply -f cert-manager/ca-issuer.yaml
+
 echo ""
 echo "╔════════════════════════════════════════════════════════╗ "
 echo "║  Setup Complete! Ready to launch Backstage!            ║ "
