@@ -25,6 +25,21 @@ kubectl -n cert-manager rollout status deploy/cert-manager-cainjector --timeout=
 echo "Create Cluster Issuer..."
 kubectl apply -f cert-manager/ca-issuer.yaml
 
+echo "Install Kyverno..."
+helm repo add kyverno https://kyverno.github.io/kyverno/
+helm repo update
+helm install kyverno kyverno/kyverno -n kyverno --create-namespace --wait --version 3.7.0
+
+echo "Install Crossplane..."
+helm repo add crossplane-stable https://charts.crossplane.io/stable
+helm repo update
+helm install crossplane --namespace crossplane-system --create-namespace crossplane-stable/crossplane --wait
+
+echo "Install ArgoCD..."
+helm repo add argo https://argoproj.github.io/argo-helm
+helm repo update
+helm install argocd argo/argo-cd --version 9.4.0 --namespace argocd --create-namespace --wait
+
 echo ""
 echo "╔════════════════════════════════════════════════════════╗ "
 echo "║  Setup Complete! Ready to launch Backstage!            ║ "
