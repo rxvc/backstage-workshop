@@ -14,7 +14,9 @@
     "ghcr.io/devcontainers-extra/features/kind:1": {
       "version": "latest"
     },
-    "ghcr.io/devcontainers-extra/features/argo-cd:1": {},
+    "ghcr.io/devcontainers-extra/features/argo-cd": {
+      "version": "v3.2.6"
+    },
     "ghcr.io/devcontainers-extra/features/kyverno-cli:1": {},
     "ghcr.io/joebowbeer/devcontainers-features/crossplane:1": {
       "channel": "stable",
