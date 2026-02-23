@@ -92,6 +92,17 @@ kubectl -n envoy-gateway-system patch svc "$EG_SVC" --type='json' -p='[
   {"op":"replace","path":"/spec/ports/1/nodePort","value":443}
 ]'
 
+echo "Configure ArgoCD Routing..."
+ARGOCD_URL="https://${GATEWAY_HOST}/argocd"
+
+sed "s|REPLACE_ME|${GATEWAY_HOST}|g" argo/httproute-template.yaml > argo/httproute.yaml
+kubectl apply -f argo/httproute.yaml
+kubectl -n argocd patch cm argocd-cmd-params-cm --type merge \
+  -p '{"data":{"server.rootpath":"/argocd","server.basehref":"/argocd","server.insecure":"true"}}'
+kubectl -n argocd patch cm argocd-cm --type merge \
+  -p "{\"data\":{\"url\":\"${ARGOCD_URL}\"}}"
+kubectl -n argocd rollout restart deploy/argocd-server
+
 echo ""
 echo "╔════════════════════════════════════════════════════════╗ "
 echo "║  Setup Complete! Ready to launch Backstage!            ║ "

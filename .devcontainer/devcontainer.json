@@ -4,7 +4,7 @@
   "service": "app",
   "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
   "shutdownAction": "stopCompose",
-  "forwardPorts": [443,3000, 7007, 8080, "db:5432"],
+  "forwardPorts": [80, 443, 3000, 7007, 8080, "db:5432"],
   "features": {
     "ghcr.io/devcontainers/features/kubectl-helm-minikube:1": {
       "version": "latest",
@@ -36,9 +36,17 @@
     "storage": "32gb"
   },
   "portsAttributes": {
+    "80": {
+      "label": "k8s-ingress-http",
+      "onAutoForward": "silent",
+      "requireLocalPort": true,
+      "elevateIfNeeded": true
+    },
     "443": {
-      "label": "k8s-ingress",
-      "onAutoForward": "silent"
+      "label": "k8s-ingress-https",
+      "onAutoForward": "silent",
+      "requireLocalPort": true,
+      "elevateIfNeeded": true
     },
     "3000": {
       "label": "backstage-frontend",
